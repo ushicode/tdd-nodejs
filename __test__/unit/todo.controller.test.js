@@ -26,5 +26,10 @@ describe("TodoController.createTodo", ()=>{
         req.body = newTodo;
         TodoController.createTodo(req, res, next);
         expect(res.statusCode).toBe(201);
-    })
+        expect(res._isEndCalled()).toBeTruthy();
+    });
+
+    // afterEach(()=>{
+    //     jest.clearAllMock()
+    // })
 } );
