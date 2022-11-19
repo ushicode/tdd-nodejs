@@ -1,16 +1,22 @@
 const express = require('express');
 const app = express();
+const db = require("./db/db.connect")
+const todoRoutes = require('./routes/todo.routes')
+app.use(express.json())
 
-const CONST_OBJ = {
-    port: 3000
-}
+db.connect();
+
 
 app.get("/", (req, res)=>{
     res.send("Hello World")
 });
 
-app.listen(CONST_OBJ.port, ()=>{
-    console.log(`Server running on PORT: ${CONST_OBJ.port}`);
-})
+app.use("/todos", todoRoutes)
 
-module.exports = CONST_OBJ
+// app.listen(CONST_OBJ.port, ()=>{
+//     console.log(`Server running on PORT: ${CONST_OBJ.port}`);
+// })
+
+
+
+module.exports = app
