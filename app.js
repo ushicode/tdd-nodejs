@@ -2,9 +2,9 @@ const express = require('express');
 const app = express();
 const db = require("./db/db.connect")
 const todoRoutes = require('./routes/todo.routes')
+db.connect();
 app.use(express.json())
 
-db.connect();
 
 
 app.get("/", (req, res)=>{
@@ -13,8 +13,8 @@ app.get("/", (req, res)=>{
 
 app.use("/todos", todoRoutes)
 
-// app.listen(CONST_OBJ.port, ()=>{
-//     console.log(`Server running on PORT: ${CONST_OBJ.port}`);
+// app.listen(3000, ()=>{
+//     console.log(`Server running on PORT: 3000`);
 // })
 
 
