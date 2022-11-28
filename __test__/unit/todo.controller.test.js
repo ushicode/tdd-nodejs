@@ -9,7 +9,8 @@ let req,res,next;
 beforeEach(()=>{
     req = httpMocks.createRequest();
     res = httpMocks.createResponse();
-    next = null;
+    // next = null;
+    next = jest.fn();
 });
 
 // describe(name, fn) creates a block that groups together several related tests.
@@ -26,17 +27,24 @@ describe("TodoController.createTodo", ()=>{
         TodoController.createTodo(req, res, next)
         expect(TodoModel.create).toBeCalledWith(newTodo)
     });
-    it("should return 201 response code", ()=>{
+    it("should return 201 response code", async ()=>{
         // req.body = newTodo;
-        TodoController.createTodo(req, res, next)
+        await TodoController.createTodo(req, res, next)
         expect(res.statusCode).toBe(201)
         expect(res._isEndCalled()).toBeTruthy()
     });
-    it('should return json body in response',()=>{
+    it('should return json body in response',async ()=>{
         TodoModel.create.mockReturnValue(newTodo)
-        TodoController.createTodo(req, res, next)
+        await TodoController.createTodo(req, res, next)
         expect(res._getJSONData()).toStrictEqual(newTodo)  //toBe
-    })
+    });
+    it('should handle errors', async ()=>{
+        const errorMessage = { message: "Done property missing" }
+        const rejectedPromise = Promise.reject(errorMessage)
+        TodoModel.create.mockReturnValue(rejectedPromise)
+        await TodoController.createTodo(req, res, next)
+
+    });
 
     // afterEach(()=>{
     //     jest.clearAllMock()

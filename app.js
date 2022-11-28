@@ -2,16 +2,19 @@ const express = require('express');
 const app = express();
 const db = require("./db/db.connect")
 const todoRoutes = require('./routes/todo.routes')
-db.connect();
 app.use(express.json())
 
+db.connect();
 
-
-app.get("/", (req, res)=>{
-    res.send("Hello World")
-});
 
 app.use("/todos", todoRoutes)
+
+
+
+app.use((error, req, res, next)=>{
+    // console.log(error)
+    res.status(500).json({ message: error.message });
+});
 
 // app.listen(3000, ()=>{
 //     console.log(`Server running on PORT: 3000`);
