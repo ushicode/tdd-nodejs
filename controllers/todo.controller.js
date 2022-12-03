@@ -13,10 +13,10 @@ module.exports = {
 
     getTodos: async (req, res, next)=>{
            try {
-            const findTodos = await TodoModel.find({})
-            res.status(200).json(findTodos)
+            const allTodos = await TodoModel.find({})
+            res.status(200).json(allTodos)
            } catch (err) {
-            // next(err)
+            next(err);
            }
     }
 
